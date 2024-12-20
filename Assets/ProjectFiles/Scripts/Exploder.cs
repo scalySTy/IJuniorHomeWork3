@@ -7,13 +7,11 @@ public class Exploder : MonoBehaviour
     [SerializeField, Range(5, 30)] private float _radius;
     [SerializeField, Range(100, 500)] private float _explosionForce;
     
-    public void Explode(Cube parentCube, List<Cube> cubes)
+    public void Explode(Vector3 explosionCenter, List<Rigidbody> explosiveObjects)
     {
-        Vector3 explosionCenter = parentCube.transform.position;
-        
-        foreach (Cube cube in cubes)
+        foreach (Rigidbody explosiveObject in explosiveObjects)
         {
-            cube.GetComponent<Rigidbody>().AddExplosionForce(_explosionForce, explosionCenter, _radius);
+            explosiveObject.AddExplosionForce(_explosionForce, explosionCenter, _radius);
         }
     }
 }

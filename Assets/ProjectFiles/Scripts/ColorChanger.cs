@@ -5,9 +5,7 @@ public class ColorChanger : MonoBehaviour
 {
     public void ChangeColor()
     {
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-        
-        if (meshRenderer)
+        if (TryGetComponent(out MeshRenderer meshRenderer))
         {
             Color randomColor = Random.ColorHSV();
             meshRenderer.material.color = randomColor;

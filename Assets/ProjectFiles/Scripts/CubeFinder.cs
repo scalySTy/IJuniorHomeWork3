@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class CubeFinder : MonoBehaviour
 {
+    private const int MouseClickNumber = 0;
+    
     [SerializeField] private Camera _camera;
     [SerializeField] private LayerMask _cubeLayerMask;
     
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) == false) return;
+        if (Input.GetMouseButtonDown(MouseClickNumber) == false) 
+            return;
         
         Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
 
