@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -8,10 +9,13 @@ public class Cube : MonoBehaviour
     [SerializeField] private Exploder _exploder;
     [SerializeField] private ColorChanger _colorChanger;
     
+    private Rigidbody _rigidbody;
+    
     public float MultiplyChance { get; private set; }
     
     private void Awake()
     {
+        _rigidbody = GetComponent<Rigidbody>();
         MultiplyChance = 1f;
         
         _colorChanger.ChangeColor();
@@ -26,26 +30,28 @@ public class Cube : MonoBehaviour
         Vector3 newScale = transform.localScale / reduceCoefficient;
         transform.localScale = newScale;
     }
-    
-    public void ReplicateAndExplode()
+
+    public void Replicate()
     {
         if (MultiplyChance >= UnityEngine.Random.value)
         {
-            List<Cube> cubes = _replicator.Replicate(this);
-            List<Rigidbody> explosiveObjects = new List<Rigidbody>();
+            List<Cube> replicatedCubes = _replicator.Replicate(this);
+            
+            Explode(replicatedCubes);
 
-            foreach (Cube cube in cubes)
-            {
-                if (cube.TryGetComponent(out Rigidbody cubeRigidbody))
-                {
-                    explosiveObjects.Add(cubeRigidbody);
-                }
-            }
-        
-            Vector3 explosionCenter = transform.position;
-            _exploder.Explode(explosionCenter, explosiveObjects);
-        
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Explode(List<Cube> replicatedCubes)
+    {
+        List<Rigidbody> explosiveObjects = replicatedCubes.Select(cube => cube._rigidbody).ToList();
+        Vector3 explosionCenter = transform.position;
+        
+        _exploder.Explode(explosionCenter, explosiveObjects);
     }
 }

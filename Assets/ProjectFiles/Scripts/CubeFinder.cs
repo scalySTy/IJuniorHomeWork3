@@ -20,7 +20,7 @@ public class CubeFinder : MonoBehaviour
         {
             if (hit.collider.gameObject.TryGetComponent(out Cube cube))
             {
-                cube.ReplicateAndExplode();
+                cube.Replicate();
             }
         }
     }
