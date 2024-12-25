@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5627383861595273299}
   - component: {fileID: 4996132259867626472}
   - component: {fileID: 8453956842221300142}
-  - component: {fileID: 414905194481864420}
   - component: {fileID: 132614056875974026}
   - component: {fileID: 7045915815288673164}
   m_Layer: 6
@@ -151,22 +150,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10954cbf8abbd9b49921e7f493183353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _replicator: {fileID: 414905194481864420}
   _exploder: {fileID: 7045915815288673164}
   _colorChanger: {fileID: 132614056875974026}
---- !u!114 &414905194481864420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 677040861159125459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28d3543a171a70545bbce38002e6b18b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _cubePrefab: {fileID: 8453956842221300142}
 --- !u!114 &132614056875974026
 MonoBehaviour:
   m_ObjectHideFlags: 0

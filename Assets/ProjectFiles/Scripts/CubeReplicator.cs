@@ -8,23 +8,22 @@ public class CubeReplicator : MonoBehaviour
     public List<Cube> Replicate(Cube cube)
     {
         List<Cube> replicatedCubes = new List<Cube>();
-    
-        int minCubes = 2;
-        int maxCubes = 6;
-        int numberOfCubes = UnityEngine.Random.Range(minCubes, maxCubes + 1);
-        
-        float spawnRadius = 2f;
-        Vector3 originalPosition = cube.transform.position;
-        
-        for (int i = 0; i < numberOfCubes; i++)
+
+        if (cube.CanReplicate())
         {
-            Vector3 randomDirection = UnityEngine.Random.onUnitSphere;
-            Vector3 spawnPosition = originalPosition + randomDirection * spawnRadius;
+            int minCubes = 2;
+            int maxCubes = 6;
+            int numberOfCubes = UnityEngine.Random.Range(minCubes, maxCubes + 1);
+        
+            Vector3 originalPosition = cube.transform.position;
+        
+            for (int i = 0; i < numberOfCubes; i++)
+            {
+                Cube newCube = Instantiate(_cubePrefab, originalPosition, Quaternion.identity);
+                newCube.Init(cube.MultiplyChance, cube.transform.localScale);
             
-            Cube newCube = Instantiate(_cubePrefab, spawnPosition, Quaternion.identity);
-            newCube.Init(cube.MultiplyChance);
-            
-            replicatedCubes.Add(newCube);
+                replicatedCubes.Add(newCube);
+            }
         }
         
         return replicatedCubes;

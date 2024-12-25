@@ -5,51 +5,38 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Cube : MonoBehaviour
 {
-    [SerializeField] private CubeReplicator _replicator;
     [SerializeField] private Exploder _exploder;
     [SerializeField] private ColorChanger _colorChanger;
     
-    private Rigidbody _rigidbody;
-    
+    public Rigidbody Rigidbody { get; private set; }
     public float MultiplyChance { get; private set; }
     
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        Rigidbody = GetComponent<Rigidbody>();
         MultiplyChance = 1f;
         
-        _colorChanger.ChangeColor();
+        _colorChanger.ChangeMeshColor();
     }
     
-    public void Init(float parentCubeMultiplyChance)
+    public void Init(float parentCubeMultiplyChance, Vector3 parentCubeLocalScale)
     {
         float reduceCoefficient = 2f;
         
         MultiplyChance = parentCubeMultiplyChance / reduceCoefficient;
         
-        Vector3 newScale = transform.localScale / reduceCoefficient;
+        Vector3 newScale = parentCubeLocalScale / reduceCoefficient;
         transform.localScale = newScale;
     }
 
-    public void Replicate()
+    public bool CanReplicate()
     {
-        if (MultiplyChance >= UnityEngine.Random.value)
-        {
-            List<Cube> replicatedCubes = _replicator.Replicate(this);
-            
-            Explode(replicatedCubes);
-
-            Destroy(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        return MultiplyChance >= UnityEngine.Random.value;
     }
-
-    private void Explode(List<Cube> replicatedCubes)
+    
+    public void Explode(List<Cube> replicatedCubes)
     {
-        List<Rigidbody> explosiveObjects = replicatedCubes.Select(cube => cube._rigidbody).ToList();
+        List<Rigidbody> explosiveObjects = replicatedCubes.Select(cube => cube.Rigidbody).ToList();
         Vector3 explosionCenter = transform.position;
         
         _exploder.Explode(explosionCenter, explosiveObjects);

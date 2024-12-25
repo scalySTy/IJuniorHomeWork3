@@ -6,6 +6,7 @@ public class CubeFinder : MonoBehaviour
 {
     private const int MouseClickNumber = 0;
     
+    [SerializeField] private CubeReplicator _replicator;
     [SerializeField] private Camera _camera;
     [SerializeField] private LayerMask _cubeLayerMask;
     
@@ -20,7 +21,11 @@ public class CubeFinder : MonoBehaviour
         {
             if (hit.collider.gameObject.TryGetComponent(out Cube cube))
             {
-                cube.Replicate();
+                List<Cube> replicatedCubes = _replicator.Replicate(cube);
+                
+                cube.Explode(replicatedCubes);
+                
+                Destroy(cube.gameObject);
             }
         }
     }
